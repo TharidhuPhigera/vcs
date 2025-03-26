@@ -5,10 +5,9 @@ import { FileModal } from "@/components/FileModal";
 
 interface ViewCargoModalProps {
   viewCargo: Cargo | null;
-  onClose: () => void;
 }
 
-export const ViewCargoModal: React.FC<ViewCargoModalProps> = ({ viewCargo, onClose }) => {
+export const ViewCargoModal: React.FC<ViewCargoModalProps> = ({ viewCargo }) => {
   const [expandedFile, setExpandedFile] = useState<string | null>(null);
 
   if (!viewCargo) return null;
@@ -37,7 +36,6 @@ export const ViewCargoModal: React.FC<ViewCargoModalProps> = ({ viewCargo, onClo
     }
   };
 
-  // Format the estimated delivery date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -49,45 +47,24 @@ export const ViewCargoModal: React.FC<ViewCargoModalProps> = ({ viewCargo, onClo
 
   return (
     <div className="space-y-6 text-gray-800">
-      {/* Cargo Details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Reference Number</label>
-          <div className="text-lg font-semibold text-gray-800">{viewCargo.referenceNumber}</div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Status</label>
-          <div className="text-lg font-semibold text-gray-800">{viewCargo.status}</div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Origin</label>
-          <div className="text-lg font-semibold text-gray-800">{viewCargo.origin}</div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Destination</label>
-          <div className="text-lg font-semibold text-gray-800">{viewCargo.destination}</div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Estimated Delivery</label>
-          <div className="text-lg font-semibold text-gray-800">
-            {formatDate(viewCargo.estimatedDelivery)}
+        {[
+          { label: "Reference Number", value: viewCargo.referenceNumber },
+          { label: "Status", value: viewCargo.status },
+          { label: "Origin", value: viewCargo.origin },
+          { label: "Destination", value: viewCargo.destination },
+          { label: "Estimated Delivery", value: formatDate(viewCargo.estimatedDelivery) },
+          { label: "Unit Count", value: viewCargo.unitCount },
+          { label: "Payment", value: `€${viewCargo.payment}` },
+          { label: "Note", value: viewCargo.note }
+        ].map((item) => (
+          <div key={item.label}>
+            <label className="block text-sm font-medium text-gray-600 mb-1">{item.label}</label>
+            <div className="text-lg font-semibold text-gray-800">{item.value}</div>
           </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Unit Count</label>
-          <div className="text-lg font-semibold text-gray-800">{viewCargo.unitCount}</div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Payment</label>
-          <div className="text-lg font-semibold text-gray-800">€{viewCargo.payment}</div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600 mb-1">Note</label>
-          <div className="text-lg font-semibold text-gray-800">{viewCargo.note}</div>
-        </div>
+        ))}
       </div>
 
-      {/* File Preview Section */}
       {viewCargo.imageUrl && (
         <div>
           <label className="block text-sm font-medium text-gray-600 mb-2">File Preview</label>
@@ -101,7 +78,6 @@ export const ViewCargoModal: React.FC<ViewCargoModalProps> = ({ viewCargo, onClo
         </div>
       )}
 
-      {/* File Modal for Expanded File View */}
       <FileModal
         isOpen={!!expandedFile}
         onClose={() => setExpandedFile(null)}

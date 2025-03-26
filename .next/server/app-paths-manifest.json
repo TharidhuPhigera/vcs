@@ -1,4 +1,20 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/api/cargo/[id]/route": "app/api/cargo/[id]/route.js",
+  "/api/cargo/route": "app/api/cargo/route.js",
+  "/api/register/route": "app/api/register/route.js",
+  "/api/cargoClient/route": "app/api/cargoClient/route.js",
+  "/api/reference/route": "app/api/reference/route.js",
+  "/api/userExists/route": "app/api/userExists/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js"
+  "/api/sentry-example-api/route": "app/api/sentry-example-api/route.js",
+  "/api/upload/route": "app/api/upload/route.js",
+  "/employee/page": "app/employee/page.js",
+  "/sentry-example-page/page": "app/sentry-example-page/page.js",
+  "/page": "app/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/register/page": "app/register/page.js",
+  "/trackCargo/[cargoNumber]/page": "app/trackCargo/[cargoNumber]/page.js",
+  "/login/page": "app/login/page.js"
 }

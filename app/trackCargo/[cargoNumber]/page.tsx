@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 interface Cargo {
   referenceNumber: string;
@@ -179,11 +180,15 @@ export default function TrackCargoPage({ params }: { params: Promise<{ cargoNumb
                     </div>
                   </>
                 ) : (
-                  <img
-                    src={cargoData.imageUrl}
-                    alt="Cargo Media"
-                    className="w-full h-full object-cover rounded-lg border border-white/10"
-                  />
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={cargoData.imageUrl}
+                      alt="Cargo Media"
+                      fill
+                      className="object-cover rounded-lg border border-white/10"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
                 )}
               </div>
               <p className="text-sm text-white/60 mt-2">
@@ -249,11 +254,15 @@ export default function TrackCargoPage({ params }: { params: Promise<{ cargoNumb
                   </div>
                 </div>
               ) : (
-                <img
-                  src={cargoData.imageUrl}
-                  alt="Cargo Media"
-                  className="w-full max-h-[80vh] object-contain"
-                />
+                <div className="relative w-full h-[80vh]">
+                  <Image
+                    src={cargoData.imageUrl}
+                    alt="Cargo Media"
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
               )}
             </div>
           </div>

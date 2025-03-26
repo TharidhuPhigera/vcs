@@ -399,7 +399,7 @@ useEffect(() => {
       </Modal>
 
       <Modal isOpen={showViewModal} onClose={() => setShowViewModal(false)} title="View Cargo Details">
-        <ViewCargoModal viewCargo={currentCargo} onClose={() => setShowViewModal(false)} />
+        <ViewCargoModal viewCargo={currentCargo} />
       </Modal>
 
       <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)} title="Edit Cargo">

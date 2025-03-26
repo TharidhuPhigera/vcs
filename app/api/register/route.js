@@ -40,7 +40,7 @@ export async function POST(req) {
     await connect();
 
     // Create a new user document
-    const newUser = await User.create({
+    await User.create({
       username,
       password: hashedPassword,
       role,

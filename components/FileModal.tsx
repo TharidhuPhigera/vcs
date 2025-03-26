@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import Image from "next/image";
 
 interface FileModalProps {
   isOpen: boolean;
@@ -13,6 +14,29 @@ export const FileModal: React.FC<FileModalProps> = ({ isOpen, onClose, fileUrl }
   const videoRef = useRef<HTMLVideoElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
+  // Memoize the toggle functions to prevent unnecessary re-renders
+  const toggleFullscreen = useCallback(() => {
+    if (!modalRef.current) return;
+
+    if (!isFullscreen) {
+      modalRef.current.requestFullscreen().catch(console.error);
+    } else {
+      document.exitFullscreen();
+    }
+    setIsFullscreen(!isFullscreen);
+  }, [isFullscreen]);
+
+  const togglePlayPause = useCallback(() => {
+    if (!videoRef.current) return;
+
+    if (isPlaying) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  }, [isPlaying]);
+
   // Reset states when modal closes or file changes
   useEffect(() => {
     if (!isOpen) {
@@ -25,14 +49,17 @@ export const FileModal: React.FC<FileModalProps> = ({ isOpen, onClose, fileUrl }
   // Handle keyboard events
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isOpen) return;
+      if (!isOpen || !fileUrl) return;
+
+      const fileExtension = fileUrl.split(".").pop()?.toLowerCase();
+      const isVideo = ["mp4", "mov", "avi", "webm"].includes(fileExtension || "");
 
       switch (e.key) {
         case "Escape":
           onClose();
           break;
         case " ":
-          if (isVideoFile) togglePlayPause();
+          if (isVideo) togglePlayPause();
           break;
         case "f":
           toggleFullscreen();
@@ -42,34 +69,12 @@ export const FileModal: React.FC<FileModalProps> = ({ isOpen, onClose, fileUrl }
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, fileUrl]);
+  }, [isOpen, fileUrl, onClose, togglePlayPause, toggleFullscreen]);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
-  };
-
-  const toggleFullscreen = () => {
-    if (!modalRef.current) return;
-
-    if (!isFullscreen) {
-      modalRef.current.requestFullscreen().catch(console.error);
-    } else {
-      document.exitFullscreen();
-    }
-    setIsFullscreen(!isFullscreen);
-  };
-
-  const togglePlayPause = () => {
-    if (!videoRef.current) return;
-
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
   };
 
   const handleTimeUpdate = () => {
@@ -139,7 +144,7 @@ export const FileModal: React.FC<FileModalProps> = ({ isOpen, onClose, fileUrl }
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
                 onEnded={() => setIsPlaying(false)}
-                controls={false} // We'll use custom controls
+                controls={false}
               />
               
               {/* Custom Video Controls */}
@@ -173,12 +178,17 @@ export const FileModal: React.FC<FileModalProps> = ({ isOpen, onClose, fileUrl }
               </div>
             </div>
           ) : isImageFile ? (
-            <img
-              src={fileUrl}
-              alt="Preview"
-              className="max-h-[80vh] max-w-full object-contain cursor-zoom-in"
-              onClick={toggleFullscreen}
-            />
+            <div className="relative w-full h-[80vh]">
+              <Image
+                src={fileUrl}
+                alt="Preview"
+                fill
+                className="object-contain cursor-zoom-in"
+                onClick={toggleFullscreen}
+                quality={100}
+                unoptimized={process.env.NODE_ENV !== "production"} // Only optimize in production
+              />
+            </div>
           ) : isPDFFile ? (
             <iframe
               src={fileUrl}

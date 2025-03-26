@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface Cargo {
   _id: string;
@@ -167,7 +168,9 @@ export default function EmployeePage() {
         <h1 className="text-5xl font-bold text-white drop-shadow-lg">
           Vipula Cargo Service
         </h1>
-        <p className="text-lg text-white/80 mt-2">Update Cargo Information</p>
+        <p className="text-lg text-white/80 mt-2">
+          Update Cargo Information
+        </p>
       </div>
 
       {/* Form */}
@@ -279,11 +282,13 @@ export default function EmployeePage() {
                 />
               </div>
             ) : (
-              <img
-                src={existingCargo.imageUrl}
-                alt="Cargo Proof"
-                className="w-full h-auto rounded-lg"
-              />
+                <Image
+                  src={existingCargo.imageUrl}
+                  alt="Cargo Proof"
+                  fill
+                  className="object-contain rounded-lg"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
             )}
           </div>
         )}

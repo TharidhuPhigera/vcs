@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Cargo } from "@/app/types"; // Import the Cargo type
 
