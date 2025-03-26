@@ -3,13 +3,18 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/next"
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/monitoring",
       "dest": "https://sentry.io"
+    },
+    {
+      "src": "/api/(.*)",
+        "dest": "/api/$1",
+        "methods": ["GET", "POST", "PUT", "DELETE"]
     }
   ]
 }

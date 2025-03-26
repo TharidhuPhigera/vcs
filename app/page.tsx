@@ -9,8 +9,8 @@ export default function Home() {
 
   const validateInputs = (cargoNumber: string, password: string) => {
     // Basic password validation
-    if (password.length < 6) {
-      return "Password must be at least 6 characters";
+    if (password.length < 3) {
+      return "Password must be at least 3 characters";
     }
 
     if (password.length > 50) {
@@ -134,26 +134,22 @@ export default function Home() {
             id="password"
             name="password"
             required
-            minLength={6}
+            minLength={3}
             maxLength={50}
             className="w-full px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-white placeholder-white/50 border border-white/10"
             placeholder="Enter password (6-50 characters)"
           />
         </div>
-
         <button
           type="submit"
           disabled={isLoading}
           className={`w-full ${isLoading ? 'bg-[#007399]' : 'bg-[#00b5e2] hover:bg-[#009ec1]'} text-white py-2 rounded-lg transition backdrop-blur-md flex justify-center items-center`}
         >
           {isLoading ? (
-            <>
-              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Processing...
-            </>
+            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
           ) : (
             "Track Now"
           )}
