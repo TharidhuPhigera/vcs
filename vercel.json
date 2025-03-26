@@ -3,18 +3,33 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/node"
+      "use": "@vercel/next"
     }
   ],
   "routes": [
     {
       "src": "/monitoring",
-      "dest": "https://sentry.io"
+      "dest": "https://sentry.io",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS"
+      }
     },
     {
       "src": "/api/(.*)",
-        "dest": "/api/$1",
-        "methods": ["GET", "POST", "PUT", "DELETE"]
+      "dest": "/api/$1",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1",
+      "continue": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/monitoring-tunnel",
+      "destination": "/api/sentry-tunnel"
     }
   ]
 }
