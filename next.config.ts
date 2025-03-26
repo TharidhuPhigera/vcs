@@ -7,6 +7,35 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['res.cloudinary.com'],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/monitoring',
+        destination: 'https://sentry.io',
+      },
+      {
+        source: '/monitoring-tunnel',
+        destination: '/api/sentry-tunnel',
+      }
+    ]
+  },
+  async headers() {
+    return [
+      {
+        source: '/monitoring',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*'
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, OPTIONS'
+          }
+        ]
+      }
+    ]
+  }
 };
 
 const sentryOptions = {
