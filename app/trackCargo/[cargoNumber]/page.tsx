@@ -101,16 +101,16 @@ export default function TrackCargoPage({ params }: { params: Promise<{ cargoNumb
       </div>
 
       {/* Main Content */}
-      <div className="text-center mb-8 z-10">
-        <h1 className="text-5xl font-bold text-white drop-shadow-lg">
+      <div className="text-center mb-8 z-10 px-4">
+        <h1 className="text-3xl sm:text-5xl font-bold text-white drop-shadow-lg">
           Track Cargo
         </h1>
-        <p className="text-lg text-white/80 mt-2">Your Cargo Details</p>
+        <p className="text-sm sm:text-lg text-white/80 mt-2">Your Cargo Details</p>
       </div>
 
       {/* Cargo Details Card */}
       {cargoData ? (
-        <div className="bg-white/10 backdrop-blur-md rounded-xl shadow-2xl p-8 w-full max-w-2xl border border-white/10 z-10">
+        <div className="bg-white/10 backdrop-blur-md rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-2xl border border-white/10 z-10 mx-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Left Column */}
             <div className="space-y-4">
@@ -198,7 +198,7 @@ export default function TrackCargoPage({ params }: { params: Promise<{ cargoNumb
           )}
         </div>
       ) : (
-        <p className="text-center text-white z-10">Loading cargo details...</p>
+        <p className="text-center text-white z-10 px-4">Loading cargo details...</p>
       )}
 
       {/* Media Modal */}
