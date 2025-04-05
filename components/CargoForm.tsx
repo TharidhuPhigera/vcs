@@ -1,10 +1,12 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Cargo } from "@/app/types"; // Import the Cargo type
+import { Cargo } from "@/app/types";
+import { useState } from "react";
+import { FiCheckCircle, FiAlertCircle, FiLoader } from "react-icons/fi";
 
 interface CargoFormProps {
   newCargo: Cargo;
   setNewCargo: (cargo: Cargo) => void;
-  handleAddCargo: (e: React.FormEvent) => void;
+  handleAddCargo: (e: React.FormEvent) => Promise<void>; // Changed to return Promise
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   showPassword: boolean;
   togglePasswordVisibility: () => void;
@@ -20,51 +22,93 @@ export const CargoForm: React.FC<CargoFormProps> = ({
   isEditMode = false,
   togglePasswordVisibility,
 }) => {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewCargo({ ...newCargo, [name]: value });
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    
+    try {
+      await handleAddCargo(e);
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000); // Hide success message after 3 seconds
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An unknown error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <form onSubmit={handleAddCargo} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Reference Number */}
-        <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Reference Number
-        </label>
-        <input
-          type="text"
-          value={newCargo.referenceNumber}
-          onChange={(e) => setNewCargo({...newCargo, referenceNumber: e.target.value})}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
-          disabled={isEditMode} // Disabled when editing
-          required
-        />
-      </div>
-      {!isEditMode && (
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Password
-          </label>
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              value={newCargo.password}
-              onChange={(e) => setNewCargo({...newCargo, password: e.target.value})}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
-              required={!isEditMode}
-            />
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black"
-            >
-              {showPassword ? <FaEyeSlash className="text-lg" /> : <FaEye className="text-lg" />}
-            </button>
+    <form onSubmit={handleSubmit} className="space-y-6 relative">
+      {/* Notification overlays */}
+      {success && (
+        <div className="absolute -top-20 left-0 right-0 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg animate-fade-in">
+          <div className="flex items-center">
+            <FiCheckCircle className="mr-2" />
+            <span>{isEditMode ? 'Cargo updated successfully!' : 'Cargo added successfully!'}</span>
           </div>
         </div>
       )}
+      
+      {error && (
+        <div className="absolute -top-20 left-0 right-0 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg animate-fade-in">
+          <div className="flex items-center">
+            <FiAlertCircle className="mr-2" />
+            <span>{error}</span>
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Reference Number */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Reference Number
+          </label>
+          <input
+            type="text"
+            value={newCargo.referenceNumber}
+            onChange={(e) => setNewCargo({...newCargo, referenceNumber: e.target.value})}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
+            disabled={isEditMode}
+            required
+          />
+        </div>
+        
+        {!isEditMode && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={newCargo.password}
+                onChange={(e) => setNewCargo({...newCargo, password: e.target.value})}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
+                required={!isEditMode}
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black"
+              >
+                {showPassword ? <FaEyeSlash className="text-lg" /> : <FaEye className="text-lg" />}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Rest of your form fields remain the same */}
         {/* Origin */}
         <div>
           <label htmlFor="origin" className="block text-sm font-medium text-gray-700 mb-2">
@@ -102,7 +146,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
           <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
             Status
           </label>
-              <select
+          <select
             value={newCargo.status}
             onChange={(e) => setNewCargo({...newCargo, status: e.target.value})}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
@@ -203,9 +247,21 @@ export const CargoForm: React.FC<CargoFormProps> = ({
       <div className="flex justify-end mt-6">
         <button
           type="submit"
-          className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105"
+          disabled={loading}
+          className={`flex items-center justify-center gap-2 ${
+            loading ? 'bg-blue-400' : 'bg-blue-500 hover:bg-blue-700'
+          } text-white px-6 py-3 rounded-lg transition-all transform hover:scale-105 min-w-[120px]`}
         >
-          {isEditMode ? 'Update Cargo' : 'Add Cargo'}
+          {loading ? (
+            <>
+              <FiLoader className="animate-spin" />
+              Processing...
+            </>
+          ) : isEditMode ? (
+            'Update Cargo'
+          ) : (
+            'Add Cargo'
+          )}
         </button>
       </div>
     </form>

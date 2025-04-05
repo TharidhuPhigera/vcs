@@ -2,12 +2,13 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
-import { AiOutlineEye, AiOutlineEdit, AiOutlineSearch, AiOutlineSortAscending, AiOutlineSortDescending } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineEdit, AiOutlineSearch, AiOutlineSortAscending, AiOutlineSortDescending, AiOutlineDoubleLeft, AiOutlineLeft, AiOutlineDoubleRight, AiOutlineRight } from "react-icons/ai";
 import { CargoForm } from "@/components/CargoForm";
 import { ViewCargoModal } from "@/components/ViewCargo";
 import { Cargo } from "@/app/types";
 
 const CARGO_API_URL = "/api/cargo";
+const ITEMS_PER_PAGE = 10;
 
 export default function AdminDemoPage() {
   const [cargoData, setCargoData] = useState<Cargo[]>([]);
@@ -33,7 +34,15 @@ export default function AdminDemoPage() {
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [files, setFiles] = useState<File[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
+
+  // Calculate pagination values
+  const totalItems = filteredCargo.length;
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
+  const currentItems = filteredCargo.slice(startIndex, endIndex);
 
   // Initialize with all cargo data
   useEffect(() => {
@@ -58,7 +67,8 @@ useEffect(() => {
   });
   
   setFilteredCargo(result);
-}, [cargoData, searchTerm, sortOrder]);
+    setCurrentPage(1); // Reset to first page when filters change
+  }, [cargoData, searchTerm, sortOrder]);
 
   const fetchCargoData = async () => {
     try {
@@ -93,6 +103,16 @@ useEffect(() => {
       setShowEditModal(true);
     }
   };
+
+  // Pagination controls
+  const goToPage = (page: number) => {
+    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+  };
+
+  const nextPage = () => goToPage(currentPage + 1);
+  const prevPage = () => goToPage(currentPage - 1);
+  const firstPage = () => goToPage(1);
+  const lastPage = () => goToPage(totalPages);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) setImageFile(e.target.files[0]);
@@ -165,7 +185,7 @@ useEffect(() => {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      throw error;
     }
   };
 
@@ -226,7 +246,7 @@ useEffect(() => {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      throw error;
     }
   };
 
@@ -336,8 +356,8 @@ useEffect(() => {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/10">
-              {filteredCargo.length > 0 ? (
-                filteredCargo.map((cargo) => (
+              {currentItems.length > 0 ? (
+                currentItems.map((cargo) => (
                   <tr
                     key={cargo.referenceNumber}
                     className="hover:bg-white/5 transition-colors"
@@ -383,6 +403,93 @@ useEffect(() => {
               )}
             </tbody>
           </table>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-6 py-4 bg-[#155E95]/30 backdrop-blur-md border-t border-white/10">
+              <div className="text-sm text-white/70">
+                Showing {startIndex + 1} to {endIndex} of {totalItems} entries
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={firstPage}
+                  disabled={currentPage === 1}
+                  className={`p-2 rounded-md ${currentPage === 1 ? 'text-white/30 cursor-not-allowed' : 'text-white hover:bg-white/10'}`}
+                  title="First Page"
+                >
+                  <AiOutlineDoubleLeft />
+                </button>
+                <button
+                  onClick={prevPage}
+                  disabled={currentPage === 1}
+                  className={`p-2 rounded-md ${currentPage === 1 ? 'text-white/30 cursor-not-allowed' : 'text-white hover:bg-white/10'}`}
+                  title="Previous Page"
+                >
+                  <AiOutlineLeft />
+                </button>
+                
+                <div className="flex items-center space-x-1">
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    // Show pages around current page
+                    let pageNum;
+                    if (totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i;
+                    } else {
+                      pageNum = currentPage - 2 + i;
+                    }
+                    
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => goToPage(pageNum)}
+                        className={`w-8 h-8 rounded-md flex items-center justify-center ${
+                          currentPage === pageNum 
+                            ? 'bg-[#00b5e2] text-white' 
+                            : 'text-white hover:bg-white/10'
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+                  
+                  {totalPages > 5 && currentPage < totalPages - 2 && (
+                    <span className="px-2 text-white/50">...</span>
+                  )}
+                  
+                  {totalPages > 5 && currentPage < totalPages - 2 && (
+                    <button
+                      onClick={lastPage}
+                      className={`w-8 h-8 rounded-md flex items-center justify-center text-white hover:bg-white/10`}
+                    >
+                      {totalPages}
+                    </button>
+                  )}
+                </div>
+                
+                <button
+                  onClick={nextPage}
+                  disabled={currentPage === totalPages}
+                  className={`p-2 rounded-md ${currentPage === totalPages ? 'text-white/30 cursor-not-allowed' : 'text-white hover:bg-white/10'}`}
+                  title="Next Page"
+                >
+                  <AiOutlineRight />
+                </button>
+                <button
+                  onClick={lastPage}
+                  disabled={currentPage === totalPages}
+                  className={`p-2 rounded-md ${currentPage === totalPages ? 'text-white/30 cursor-not-allowed' : 'text-white hover:bg-white/10'}`}
+                  title="Last Page"
+                >
+                  <AiOutlineDoubleRight />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

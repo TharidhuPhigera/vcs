@@ -16,6 +16,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Vipula Cargo Service",
   description: "VCS Webpage",
+  icons: {
+    icon: [
+      // ICO (fallback)
+      { url: "/favicon.ico", sizes: "any" },
+      // SVG (modern)
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      // PNG (specific sizes)
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+    ],
+    apple: [
+      // Apple Touch Icon
+      { url: "/apple-touch-icon.png", sizes: "180x180" },
+    ],
+  },
 };
 
 export default function RootLayout({
