@@ -77,8 +77,8 @@ export default function Login() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            className="w-full px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-white placeholder-white/50 border border-white/10"
-            placeholder="Enter your username"
+            className="w-full px-4 py-2 bg-white/10 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-gray-900 dark:text-white border border-white/20 dark:border-gray-600 placeholder-black dark:placeholder-black"
+            placeholder="Enter Username"
           />
         </div>
 
@@ -96,8 +96,8 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-white placeholder-white/50 border border-white/10"
-            placeholder="Enter your password"
+            className="w-full px-4 py-2 bg-white/10 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-gray-900 dark:text-white border border-white/20 dark:border-gray-600 placeholder-black dark:placeholder-black"
+            placeholder="Enter Password"
           />
         </div>
 

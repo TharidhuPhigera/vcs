@@ -145,8 +145,8 @@ export default function EmployeePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#001a33] to-[#004d66] flex flex-col items-center justify-center relative text-white overflow-hidden">
-      {/* Background Animation */}
+    <div className="min-h-screen bg-gradient-to-br from-[#001a33] to-[#004d66] flex flex-col items-center justify-start relative text-white overflow-hidden px-4">
+      {/* Background Animation (unchanged) */}
       <div className="absolute inset-0 z-0">
         <div className="absolute w-64 h-64 bg-[#00b5e2] rounded-full opacity-20 animate-blob animation-delay-2000 top-1/4 left-1/4"></div>
         <div className="absolute w-64 h-64 bg-[#009ec1] rounded-full opacity-20 animate-blob animation-delay-4000 top-1/2 right-1/4"></div>
@@ -154,21 +154,21 @@ export default function EmployeePage() {
       </div>
 
       {/* Navbar */}
-      <div className="absolute top-0 w-full flex justify-end p-4 z-10">
+      <div className="fixed top-0 right-0 p-4 z-50">
         <button
           onClick={() => router.push("/")}
-          className="text-white bg-black/20 backdrop-blur-md px-4 py-2 rounded-lg hover:bg-black/30 transition border border-white/10"
+          className="text-white bg-black/20 backdrop-blur-md px-4 py-2 rounded-lg hover:bg-black/30 transition border border-white/10 whitespace-nowrap"
         >
           Log Out
         </button>
       </div>
 
       {/* Logo/Company Name */}
-      <div className="text-center mb-8 z-10">
-        <h1 className="text-5xl font-bold text-white drop-shadow-lg">
+      <div className="text-center mb-6 z-10 pt-16">
+        <h1 className="text-3xl sm:text-5xl font-bold text-white drop-shadow-lg">
           Vipula Cargo Service
         </h1>
-        <p className="text-lg text-white/80 mt-2">
+        <p className="text-sm sm:text-lg text-white/80 mt-2">
           Update Cargo Information
         </p>
       </div>
@@ -176,9 +176,9 @@ export default function EmployeePage() {
       {/* Form */}
       <form
         onSubmit={handleFormSubmit}
-        className="bg-white/10 backdrop-blur-md rounded-xl shadow-2xl p-8 w-full max-w-2xl border border-white/10 z-10"
+        className="bg-white/10 backdrop-blur-md rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-2xl border border-white/10 z-10 mb-8"
       >
-        <h2 className="text-2xl font-semibold text-white mb-6 text-center">
+        <h2 className="text-xl sm:text-2xl font-semibold text-white mb-4 sm:mb-6 text-center">
           Update Cargo Details
         </h2>
 
@@ -191,8 +191,8 @@ export default function EmployeePage() {
             type="text"
             value={cargoNumber}
             onChange={handleCargoNumberChange}
-            className="w-full px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-white placeholder-white/50 border border-white/10"
-            placeholder="Enter cargo number"
+            className="w-full px-4 py-2 bg-white/10 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-gray-900 dark:text-white border border-white/20 dark:border-gray-600 placeholder-black dark:placeholder-black"
+            placeholder="Enter Cargo Number"
           />
         </div>
 
@@ -205,7 +205,7 @@ export default function EmployeePage() {
         </button>
 
         {/* Grid Layout for Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           {/* Estimated Delivery */}
           <div className="mb-4">
             <label className="block text-white/80 font-medium mb-2">
@@ -215,7 +215,7 @@ export default function EmployeePage() {
               type="date"
               value={estimatedDelivery}
               onChange={handleEstimatedDeliveryChange}
-              className="w-full px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-white placeholder-white/50 border border-white/10"
+              className="w-full px-4 py-2 bg-white/10 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-gray-900 dark:text-white border border-white/20 dark:border-gray-600 placeholder-black dark:placeholder-black"
             />
           </div>
 
@@ -227,7 +227,7 @@ export default function EmployeePage() {
             <select
               value={status}
               onChange={handleStatusChange}
-              className="w-full px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-white placeholder-white/50 border border-white/10"
+              className="w-full px-4 py-2 bg-white/10 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-gray-900 dark:text-white border border-white/20 dark:border-gray-600 placeholder-black dark:placeholder-black"
             >
               <option value="">Select Status</option>
               <option value="Pending">Pending</option>
@@ -245,9 +245,9 @@ export default function EmployeePage() {
           <textarea
             value={note}
             onChange={handleNoteChange}
-            className="w-full px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-white placeholder-white/50 border border-white/10"
+            className="w-full px-4 py-2 bg-white/10 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-gray-900 dark:text-white border border-white/20 dark:border-gray-600 placeholder-black dark:placeholder-black"
             placeholder="Add a note"
-            rows={4}
+            rows={3}
           />
         </div>
 
@@ -260,9 +260,9 @@ export default function EmployeePage() {
             type="file"
             onChange={handleMediaChange}
             accept="image/*, video/*"
-            className="w-full px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-white placeholder-white/50 border border-white/10"
+            className="w-full px-4 py-2 bg-white/10 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-gray-900 dark:text-white border border-white/20 dark:border-gray-600 placeholder-black dark:placeholder-black file:text-black file:bg-transparent file:border-0"
           />
-          <p className="text-sm text-white/60 mt-1">
+          <p className="text-xs sm:text-sm text-white/60 mt-1">
             Accepted formats: JPG, PNG, GIF, MP4, MOV, AVI
           </p>
         </div>
@@ -273,29 +273,29 @@ export default function EmployeePage() {
             <label className="block text-white/80 font-medium mb-2">
               Existing Proof
             </label>
-            {isVideoFile(existingCargo.imageUrl) ? (
-              <div className="relative">
+            <div className="relative w-full aspect-video">
+              {isVideoFile(existingCargo.imageUrl) ? (
                 <video
                   src={existingCargo.imageUrl}
-                  className="w-full h-auto rounded-lg"
+                  className="w-full h-full rounded-lg object-cover"
                   controls
                 />
-              </div>
-            ) : (
+              ) : (
                 <Image
                   src={existingCargo.imageUrl}
                   alt="Cargo Proof"
                   fill
-                  className="object-contain rounded-lg"
+                  className="object-cover rounded-lg"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-            )}
+              )}
+            </div>
           </div>
         )}
 
         <button
           type="submit"
-          className="w-full bg-[#00b5e2] text-white py-2 rounded-lg hover:bg-[#009ec1] transition"
+          className="w-full bg-[#00b5e2] text-white py-3 rounded-lg hover:bg-[#009ec1] transition"
         >
           Update Cargo
         </button>

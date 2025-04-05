@@ -61,7 +61,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#001a33] to-[#004d66] flex flex-col items-center justify-center relative text-white overflow-hidden">
+<div className="min-h-screen bg-gradient-to-br from-[#001a33] to-[#004d66] flex flex-col items-center justify-center relative text-white overflow-hidden px-4 sm:px-0">
       {/* Background Animation */}
       <div className="absolute inset-0 z-0">
         <div className="absolute w-64 h-64 bg-[#00b5e2] rounded-full opacity-20 animate-blob animation-delay-2000 top-1/4 left-1/4"></div>
@@ -80,11 +80,11 @@ export default function Home() {
       </div>
 
       {/* Logo/Company Name */}
-      <div className="text-center mb-8 z-10">
-        <h1 className="text-5xl font-bold text-white drop-shadow-lg">
+      <div className="text-center mb-8 z-10 px-4">
+        <h1 className="text-3xl sm:text-5xl font-bold text-white drop-shadow-lg">
           Vipula Cargo Service
         </h1>
-        <p className="text-lg text-white/80 mt-2">
+        <p className="text-sm sm:text-lg text-white/80 mt-2">
           Delivering Excellence Worldwide
         </p>
       </div>
@@ -92,7 +92,7 @@ export default function Home() {
       {/* Form */}
       <form
         onSubmit={handleFormSubmit}
-        className="bg-white/10 backdrop-blur-md rounded-xl shadow-2xl p-8 w-full max-w-md border border-white/10 z-10"
+        className="bg-white/10 backdrop-blur-md rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md border border-white/10 z-10 mx-4"
       >
         <h2 className="text-2xl font-semibold text-white mb-6 text-center">
           Track Your Cargo
@@ -112,14 +112,14 @@ export default function Home() {
             Cargo Number
           </label>
           <input
-            type="text"
-            id="cargoNumber"
-            name="cargoNumber"
-            required
-            maxLength={16}
-            className="w-full px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-white placeholder-white/50 border border-white/10"
-            placeholder="Enter 8-16 character cargo number"
-          />
+          type="text"
+          id="cargoNumber"
+          name="cargoNumber"
+          required
+          maxLength={16}
+          className="w-full px-4 py-2 bg-white/10 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-gray-900 dark:text-white border border-white/20 dark:border-gray-600 placeholder-black dark:placeholder-black"
+          placeholder="Enter Cargo Number"
+        />
         </div>
 
         <div className="mb-6">
@@ -136,8 +136,8 @@ export default function Home() {
             required
             minLength={3}
             maxLength={50}
-            className="w-full px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-white placeholder-white/50 border border-white/10"
-            placeholder="Enter password (6-50 characters)"
+            className="w-full px-4 py-2 bg-white/10 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-[#00b5e2] focus:outline-none text-gray-900 dark:text-white border border-white/20 dark:border-gray-600 placeholder-black dark:placeholder-black"
+            placeholder="Enter Password"
           />
         </div>
         <button

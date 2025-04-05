@@ -48,7 +48,8 @@ export const CargoForm: React.FC<CargoFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 relative">
+   <div className="p-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
       {/* Notification overlays */}
       {success && (
         <div className="absolute -top-20 left-0 right-0 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg animate-fade-in">
@@ -68,7 +69,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="cargo-form-grid grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Reference Number */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -78,7 +79,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
             type="text"
             value={newCargo.referenceNumber}
             onChange={(e) => setNewCargo({...newCargo, referenceNumber: e.target.value})}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
+            className="w-full px-4 py-3 bg-white/10 border-gray-500 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black dark:text-white border border-white/20 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 cargo-form-input"
             disabled={isEditMode}
             required
           />
@@ -94,7 +95,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
                 type={showPassword ? "text" : "password"}
                 value={newCargo.password}
                 onChange={(e) => setNewCargo({...newCargo, password: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
+                className="w-full px-4 py-3 bg-white/10 border-gray-500 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black dark:text-white border border-white/20 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 cargo-form-input"
                 required={!isEditMode}
               />
               <button
@@ -120,7 +121,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
             name="origin"
             value={newCargo.origin}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
+            className="w-full px-4 py-3 bg-white/10 border-gray-500 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black dark:text-white border border-white/20 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 cargo-form-input"
             required
           />
         </div>
@@ -136,7 +137,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
             name="destination"
             value={newCargo.destination}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
+            className="w-full px-4 py-3 bg-white/10 border-gray-500 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black dark:text-white border border-white/20 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 cargo-form-input"
             required
           />
         </div>
@@ -149,7 +150,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
           <select
             value={newCargo.status}
             onChange={(e) => setNewCargo({...newCargo, status: e.target.value})}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
+            className="w-full px-4 py-3 bg-white/10 border-gray-500 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black dark:text-white border border-white/20 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 cargo-form-input"
             required
           >
             <option value="">Select Status</option>
@@ -161,7 +162,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
 
         {/* Estimated Delivery */}
         <div>
-          <label htmlFor="estimatedDelivery" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="estimatedDelivery" className="block text-sm font-medium text-black mb-2">
             Estimated Delivery
           </label>
           <input
@@ -170,7 +171,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
             name="estimatedDelivery"
             value={newCargo.estimatedDelivery}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
+            className="w-full px-4 py-3 bg-white/10 border-gray-500 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black dark:text-white border border-white/20 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 cargo-form-input"
             required
           />
         </div>
@@ -186,7 +187,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
             name="unitCount"
             value={newCargo.unitCount}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
+            className="w-full px-4 py-3 bg-white/10 border-gray-500 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black dark:text-white border border-white/20 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 cargo-form-input"
             min="1"
             required
           />
@@ -197,7 +198,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
           <label htmlFor="payment" className="block text-sm font-medium text-gray-700 mb-2">
             Price
           </label>
-          <div className="flex items-center border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all text-black">
+          <div className="flex items-center rounded-lg transition-all text-black">
             <span className="px-4 text-gray-700">€</span>
             <input
               type="number"
@@ -205,7 +206,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
               name="payment"
               value={newCargo.payment}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border-0 focus:ring-0"
+              className="w-full px-4 py-3 bg-white/10 border-gray-500 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black dark:text-white border border-white/20 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 cargo-form-input"
               required
             />
           </div>
@@ -222,7 +223,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
             name="imageFile"
             accept="image/*, video/*"
             onChange={handleFileChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
+            className="w-full px-4 py-3 bg-white/10 border-gray-500 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black dark:text-white border border-white/20 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 cargo-form-input"
           />
         </div>
 
@@ -237,8 +238,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
             name="note"
             value={newCargo.note}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-black"
-            required
+            className="w-full px-4 py-3 bg-white/10 border-gray-500 dark:bg-gray-800/50 backdrop-blur-md rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-black dark:text-white border border-white/20 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 cargo-form-input"
           />
         </div>
       </div>
@@ -248,7 +248,7 @@ export const CargoForm: React.FC<CargoFormProps> = ({
         <button
           type="submit"
           disabled={loading}
-          className={`flex items-center justify-center gap-2 ${
+          className={`cargo-form-submit flex items-center justify-center gap-2 ${
             loading ? 'bg-blue-400' : 'bg-blue-500 hover:bg-blue-700'
           } text-white px-6 py-3 rounded-lg transition-all transform hover:scale-105 min-w-[120px]`}
         >
@@ -265,5 +265,6 @@ export const CargoForm: React.FC<CargoFormProps> = ({
         </button>
       </div>
     </form>
+    </div>
   );
 };

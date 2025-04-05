@@ -277,10 +277,10 @@ useEffect(() => {
       </div>
 
       {/* Top-right Logout Button */}
-      <div className="absolute top-0 w-full flex justify-end p-4 z-10">
+      <div className="fixed top-0 right-0 p-4 z-50">
         <button
           onClick={handleSignOut}
-          className="text-white bg-black/20 backdrop-blur-md px-4 py-2 rounded-lg hover:bg-black/30 transition border border-white/10"
+          className="text-white bg-black/20 backdrop-blur-md px-4 py-2 rounded-lg hover:bg-black/30 transition border border-white/10 whitespace-nowrap"
         >
           Log Out
         </button>
@@ -378,17 +378,17 @@ useEffect(() => {
                       <div className="flex justify-center items-center space-x-2">
                         <button
                           onClick={() => handleView(cargo.referenceNumber)}
-                          className="bg-[#00b5e2] text-white px-4 py-2 rounded-md hover:bg-[#009ec1] transition transform hover:scale-105 backdrop-blur-md"
+                          className="bg-[#00b5e2] text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-md hover:bg-[#009ec1] transition transform hover:scale-105 backdrop-blur-md"
                           title="View"
                         >
-                          <AiOutlineEye size={20} />
+                          <AiOutlineEye className="text-sm sm:text-base" size={18} />
                         </button>
                         <button
                           onClick={() => handleEdit(cargo.referenceNumber)}
-                          className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition transform hover:scale-105 backdrop-blur-md"
+                          className="bg-green-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-md hover:bg-green-700 transition transform hover:scale-105 backdrop-blur-md"
                           title="Edit"
                         >
-                          <AiOutlineEdit size={20} />
+                          <AiOutlineEdit className="text-sm sm:text-base" size={18} />
                         </button>
                       </div>
                     </td>
@@ -408,7 +408,7 @@ useEffect(() => {
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-6 py-4 bg-[#155E95]/30 backdrop-blur-md border-t border-white/10">
               <div className="text-sm text-white/70">
-                Showing {startIndex + 1} to {endIndex} of {totalItems} entries
+                {startIndex + 1} - {endIndex} of {totalItems}
               </div>
               <div className="flex items-center space-x-2">
                 <button
@@ -494,22 +494,36 @@ useEffect(() => {
       </div>
 
       {/* Modals (keep all your existing modal code unchanged) */}
-      <Modal isOpen={showAddForm} onClose={() => setShowAddForm(false)} title="New Cargo">
-        <CargoForm
-          newCargo={newCargo}
-          setNewCargo={setNewCargo}
-          handleAddCargo={handleAddCargo}
-          handleFileChange={handleFileChange}
-          showPassword={showPassword}
-          togglePasswordVisibility={togglePasswordVisibility}
-        />
+      <Modal 
+        isOpen={showAddForm}
+        onClose={() => setShowAddForm(false)}
+        title="New Cargo"
+        className="max-h-[90vh] w-full max-w-[95vw] md:max-w-2xl overflow-y-auto">
+          <CargoForm
+            newCargo={newCargo}
+            setNewCargo={setNewCargo}
+            handleAddCargo={handleAddCargo}
+            handleFileChange={handleFileChange}
+            showPassword={showPassword}
+            togglePasswordVisibility={togglePasswordVisibility}
+          />
       </Modal>
 
-      <Modal isOpen={showViewModal} onClose={() => setShowViewModal(false)} title="View Cargo Details">
+      <Modal 
+        isOpen={showViewModal} 
+        onClose={() => setShowViewModal(false)} 
+        title="View Cargo Details"
+        className="max-h-[90vh] w-full max-w-[95vw] md:max-w-2xl overflow-y-auto"
+      >
         <ViewCargoModal viewCargo={currentCargo} />
       </Modal>
 
-      <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)} title="Edit Cargo">
+      <Modal 
+        isOpen={showEditModal} 
+        onClose={() => setShowEditModal(false)} 
+        title="Edit Cargo"
+        className="md:max-w-2xl" 
+      >
         {currentCargo && (
           <CargoForm
             newCargo={currentCargo}

@@ -20,6 +20,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Animation Styles */
 @keyframes blob {
   0%, 100% {
     transform: translate(0, 0) scale(1);
@@ -39,23 +40,102 @@ body {
   animation: blob 7s infinite ease-in-out;
 }
 
-.animation-delay-2000 {
-  animation-delay: 2s;
+.animation-delay-2000 { animation-delay: 2s; }
+.animation-delay-4000 { animation-delay: 4s; }
+.animation-delay-6000 { animation-delay: 6s; }
+
+/* Shared Mobile Adjustments */
+@media (max-width: 768px) {
+  .min-h-screen {
+    padding: 1rem;
+  }
+
+  .text-5xl {
+    font-size: 2.5rem;
+  }
+
+  .text-lg {
+    font-size: 1rem;
+  }
+
+  /* Search/Sort Controls Grid */
+  .filter-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  /* Modal adjustments */
+  .responsive-modal {
+    width: 95%;
+  }
 }
 
-.animation-delay-4000 {
-  animation-delay: 4s;
+@media (max-width: 480px) {
+  .text-5xl {
+    font-size: 2rem;
+  }
+
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
 }
 
-.animation-delay-6000 {
-  animation-delay: 6s;
+/* TrackCargo Page Specific */
+@media (max-width: 768px) {
+  .cargo-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cargo-media {
+    width: 100%;
+    aspect-ratio: 1/1;
+  }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Form adjustments */
+  .cargo-form-container {
+    padding: 1rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
 
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
+  .cargo-form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .cargo-form-input {
+    padding: 0.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .cargo-form-submit {
+    width: 100%;
+    padding: 0.875rem;
+  }
+
+  /* Modal positioning */
+  .cargo-modal {
+    align-items: flex-start;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .cargo-modal-content {
+    margin: 0 auto;
+    width: 95%;
+    max-width: 100%;
+  }
 }
