@@ -6,26 +6,35 @@ export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
+    setError(''); // Clear previous errors
 
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      setError(errorData.message || 'Login failed');
-      return;
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.message || 'Login failed');
+        return;
+      }
+
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+      router.push(`/${data.role}`);
+    } catch (err) {
+      setError('An unexpected error occurred');
+    } finally {
+      setIsLoading(false); // Stop loading regardless of success/failure
     }
-
-    const data = await response.json();
-    localStorage.setItem('token', data.token);
-    router.push(`/${data.role}`);
   };
 
   return (
@@ -103,12 +112,29 @@ export default function Login() {
 
         {error && <p className="text-red-400 text-center mb-4">{error}</p>}
 
-        <button
-          type="submit"
-          className="w-full bg-[#00b5e2] text-white py-2 rounded-lg hover:bg-[#009ec1] transition backdrop-blur-md"
-        >
-          Login
-        </button>
+        <div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={`w-full ${
+                isLoading ? 'bg-[#007399]' : 'bg-[#00b5e2] hover:bg-[#009ec1]'
+              } text-white py-2 rounded-lg transition backdrop-blur-md flex justify-center items-center`}
+            >
+              {isLoading ? (
+                <svg 
+                  className="animate-spin h-5 w-5 text-white" 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24"
+                >
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : (
+                "Login"
+              )}
+            </button>
+          </div>
       </form>
     </div>
   );

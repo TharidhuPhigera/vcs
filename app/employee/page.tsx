@@ -20,6 +20,8 @@ export default function EmployeePage() {
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [existingCargo, setExistingCargo] = useState<Cargo | null>(null);
   const [cargoList, setCargoList] = useState<Cargo[]>([]);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
+  const [searchLoading, setSearchLoading] = useState(false); // Separate loading for search
   const router = useRouter();
 
   useEffect(() => {
@@ -57,6 +59,7 @@ export default function EmployeePage() {
   };
 
   const handleSearchCargo = () => {
+    setSearchLoading(true); // Start search loading
     const foundCargo = cargoList.find((cargo) => cargo.referenceNumber === cargoNumber);
     if (foundCargo) {
       setExistingCargo(foundCargo);
@@ -66,13 +69,16 @@ export default function EmployeePage() {
     } else {
       alert("Cargo number not found.");
     }
+    setSearchLoading(false); // End search loading
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
 
     if (!cargoNumber || !note || !estimatedDelivery || !status) {
       alert("Please fill out all the required fields.");
+      setIsLoading(false);
       return;
     }
 
@@ -109,7 +115,7 @@ export default function EmployeePage() {
         note,
         estimatedDelivery,
         status,
-        imageUrl: mediaUrl, // This will store either image or video URL
+        imageUrl: mediaUrl,
       };
 
       const response = await fetch(`/api/cargo/${existingCargo?._id}`, {
@@ -135,6 +141,8 @@ export default function EmployeePage() {
     } catch (error) {
       console.error("Error submitting cargo info:", error);
       alert("Error submitting cargo info.");
+    } finally {
+      setIsLoading(false); // End loading regardless of success/failure
     }
   };
 
@@ -199,9 +207,19 @@ export default function EmployeePage() {
         <button
           type="button"
           onClick={handleSearchCargo}
-          className="w-full bg-[#00b5e2] text-white py-2 rounded-lg hover:bg-[#009ec1] transition mb-4"
+          disabled={searchLoading}
+          className={`w-full ${
+            searchLoading ? 'bg-[#007399]' : 'bg-[#00b5e2] hover:bg-[#009ec1]'
+          } text-white py-2 rounded-lg transition mb-4 flex justify-center items-center`}
         >
-          Search Cargo
+          {searchLoading ? (
+            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          ) : (
+            "Search Cargo"
+          )}
         </button>
 
         {/* Grid Layout for Fields */}
@@ -295,9 +313,22 @@ export default function EmployeePage() {
 
         <button
           type="submit"
-          className="w-full bg-[#00b5e2] text-white py-3 rounded-lg hover:bg-[#009ec1] transition"
+          disabled={isLoading}
+          className={`w-full ${
+            isLoading ? 'bg-[#007399]' : 'bg-[#00b5e2] hover:bg-[#009ec1]'
+          } text-white py-3 rounded-lg transition flex justify-center items-center`}
         >
-          Update Cargo
+          {isLoading ? (
+            <>
+              <svg className="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Updating...
+            </>
+          ) : (
+            "Update Cargo"
+          )}
         </button>
       </form>
     </div>
