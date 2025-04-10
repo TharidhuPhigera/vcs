@@ -13,25 +13,25 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true); // Start loading
     setError(''); // Clear previous errors
-
+    
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
-
+    
       if (!response.ok) {
         const errorData = await response.json();
         setError(errorData.message || 'Login failed');
         return;
       }
-
+    
       const data = await response.json();
       localStorage.setItem('token', data.token);
       router.push(`/${data.role}`);
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
     } finally {
       setIsLoading(false); // Stop loading regardless of success/failure
     }
